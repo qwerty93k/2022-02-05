@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
+use App\Models\Product;
 use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
 use Illuminate\Http\Request;
@@ -16,8 +17,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        $productcategories = ProductCategory::all();
-        return view('productcategory.index', ['productcategories' => $productcategories]);
+        $productcategory = ProductCategory::all();
+        return view('productcategory.index', ['productcategories' => $productcategory]);
     }
 
     /**
@@ -54,7 +55,7 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductCategory $productCategory)
+    public function show(ProductCategory $productcategory)
     {
         //
     }
@@ -65,9 +66,9 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProductCategory $productCategory)
+    public function edit(ProductCategory $productcategory)
     {
-        return view('productcategory.edit', ['productcategory' => $productCategory]);
+        return view('productcategory.edit', ['productcategory' => $productcategory]);
     }
 
     /**
@@ -77,12 +78,12 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductCategory $productCategory)
+    public function update(Request $request, ProductCategory $productcategory)
     {
-        $productCategory->title = $request->title;
-        $productCategory->description = $request->description;
+        $productcategory->title = $request->title;
+        $productcategory->description = $request->description;
 
-        $productCategory->save();
+        $productcategory->save();
 
         return redirect()->route('productcategory.index');
     }
@@ -93,8 +94,9 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductCategory $productCategory)
+    public function destroy(ProductCategory $productcategory)
     {
-        //
+        $productcategory->delete();
+        return redirect()->route('productcategory.index');
     }
 }

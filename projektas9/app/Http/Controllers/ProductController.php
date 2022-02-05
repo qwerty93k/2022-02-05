@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -15,7 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $product = Product::all();
+        return view('product.index', ['products' => $product]);
     }
 
     /**
@@ -25,7 +28,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $select_values = ProductCategory::all();
+        return view('product.create', ['select_values' => $select_values]);
     }
 
     /**
@@ -34,9 +38,22 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
-        //
+        $product = new Product;
+
+        $product->title = $request->title;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+
+        $imageName = 'image' . time() . '.' . $request->image_url->extension();
+        $request->image_url->move(public_path('images'), $imageName);
+        $product->image_url = $imageName;
+
+        $product->save();
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -58,7 +75,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $select_values = ProductCategory::all();
+        return view('product.edit', ['product' => $product, 'select_values' => $select_values]);
     }
 
     /**
@@ -68,9 +86,20 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(Request $request, Product $product)
     {
-        //
+        $product->title = $request->title;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+
+        $imageName = 'image' . time() . '.' . $request->image_url->extension();
+        $request->image_url->move(public_path('images'), $imageName);
+        $product->image_url = $imageName;
+
+        $product->save();
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -81,6 +110,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('product.index');
     }
 }

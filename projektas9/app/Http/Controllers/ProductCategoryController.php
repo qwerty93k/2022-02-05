@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
+use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
@@ -15,7 +16,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $productcategories = ProductCategory::all();
+        return view('productcategory.index', ['productcategories' => $productcategories]);
     }
 
     /**
@@ -25,7 +27,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('productcategory.create');
     }
 
     /**
@@ -34,9 +36,16 @@ class ProductCategoryController extends Controller
      * @param  \App\Http\Requests\StoreProductCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductCategoryRequest $request)
+    public function store(Request $request)
     {
-        //
+        $productcategory = new ProductCategory;
+
+        $productcategory->title = $request->title;
+        $productcategory->description = $request->description;
+
+        $productcategory->save();
+
+        return redirect()->route('productcategory.index');
     }
 
     /**
@@ -58,7 +67,7 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productCategory)
     {
-        //
+        return view('productcategory.edit', ['productcategory' => $productCategory]);
     }
 
     /**
@@ -68,9 +77,14 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductCategoryRequest $request, ProductCategory $productCategory)
+    public function update(Request $request, ProductCategory $productCategory)
     {
-        //
+        $productCategory->title = $request->title;
+        $productCategory->description = $request->description;
+
+        $productCategory->save();
+
+        return redirect()->route('productcategory.index');
     }
 
     /**

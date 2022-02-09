@@ -15,10 +15,14 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productcategory = ProductCategory::all();
-        return view('productcategory.index', ['productcategories' => $productcategory]);
+        $sortColumn = $request->sortColumn; // Column
+        $sortOrder = $request->sortOrder; // ASC/DESC
+
+        $productcategory = ProductCategory::orderBy($sortColumn, $sortOrder)->get();;
+
+        return view('productcategory.index', ['productcategories' => $productcategory, 'sortColumn' => $sortColumn, 'sortOrder' => $sortOrder]);
     }
 
     /**

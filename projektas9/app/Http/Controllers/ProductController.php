@@ -15,10 +15,35 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $product = Product::all();
-        return view('product.index', ['products' => $product]);
+        $sortColumn = 'category_id';
+        $sortOrder = $request->sortOrder; // ASC/DESC
+
+        $product_title = Product::all();
+        $category = array_keys($product_title->first()->getAttributes());
+
+        if (empty($sortOrder) and empty($sortColumn)) {
+            $product = Product::all();
+        } else {
+            //isrikiuoja kategorijas pagal varda, ne pagal id
+            if (isset($sortColumn)) {
+                $sortBool = true;
+                if ($sortOrder == "asc") {
+                    $sortBool = false;
+                }
+
+                $product = Product::get()->sortBy(function ($query) {
+                    return $query->categoryProducts->title;
+                }, SORT_REGULAR, $sortBool)->all();
+            } else {
+                $product = Product::orderBy($sortColumn, $sortOrder)->get();
+            }
+        }
+
+        $select_array = $category;
+
+        return view('product.index', ['products' => $product, 'sortColumn' => $sortColumn, 'sortOrder' => $sortOrder, 'select_array' => $select_array]);
     }
 
     /**

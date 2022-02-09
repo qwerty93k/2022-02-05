@@ -138,4 +138,12 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('product.index');
     }
+
+    //Filtras
+    public function categoryFilter(Request $request)
+    {
+        $category_id = $request->category_id;
+        $product = Product::where('category_id', '=', $category_id)->get();
+        return view('product.filter', ['products' => $product]);
+    }
 }

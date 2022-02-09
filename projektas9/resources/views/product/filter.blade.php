@@ -8,18 +8,7 @@
                     <div class="card-header">Products</div>
     
                     <div class="card-body">
-                        <a class="btn btn-primary" href="{{route('product.create')}}">Create Product</a>
-                        <form method="GET" action={{route('product.index')}}>
-                            @csrf
-                            <select name="sortOrder">
-                                <option value="asc" selected>Ascending</option>
-                                <option value="desc">Descending</option>
-                            </select>
-                            <button type="submit">Sort Category</button>
-                        </form>
-                        <div>
-                            {{$sortOrder}}
-                        </div>
+                        <a class="btn btn-secondary" href="{{route('product.index')}}">Back to Products</a>
                         <table class="table table-striped">
                             <tr>
                                 <th>Id</th>

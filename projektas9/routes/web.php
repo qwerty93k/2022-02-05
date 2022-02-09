@@ -29,6 +29,8 @@ Route::prefix('products')->group(function () {
     Route::get('edit/{product}', 'App\Http\Controllers\ProductController@edit')->name('product.edit');
     Route::post('update/{product}', 'App\Http\Controllers\ProductController@update')->name('product.update');
     Route::post('destroy/{product}', 'App\Http\Controllers\ProductController@destroy')->name('product.destroy');
+    //filtras
+    Route::get('filter', 'App\Http\Controllers\ProductController@categoryFilter')->name('product.filter');
     //Route::get('show/{product}', 'App\Http\Controllers\ProductController@show')->name('product.show');
 });
 

@@ -9,6 +9,7 @@
     
                     <div class="card-body">
                         <a class="btn btn-primary" href="{{route('product.create')}}">Create Product</a>
+                        {{--RIKIAVIMAS--}}
                         <form method="GET" action={{route('product.index')}}>
                             @csrf
                             <select name="sortOrder">
@@ -17,9 +18,15 @@
                             </select>
                             <button type="submit">Sort Category</button>
                         </form>
-                        <div>
-                            {{$sortOrder}}
-                        </div>
+                        {{--FILTRAS--}}
+                        <form method="GET" action="{{route('product.filter')}}">
+                            @csrf
+                            <select name="category_id">
+                            @foreach ($products as $product)
+                                <option value="{{$product->category_id}}">{{$product->categoryProducts->title}}</option>
+                            @endforeach
+                        </select>
+                        <button type="submit">Filter</button>
                         <table class="table table-striped">
                             <tr>
                                 <th>Id</th>

@@ -20,7 +20,11 @@ class ProductCategoryController extends Controller
         $sortColumn = $request->sortColumn; // Column
         $sortOrder = $request->sortOrder; // ASC/DESC
 
-        $productcategory = ProductCategory::orderBy($sortColumn, $sortOrder)->get();;
+        if (empty($sortColumn) and empty($sortOrder)) {
+            $productcategory = ProductCategory::all();
+        } else {
+            $productcategory = ProductCategory::orderBy($sortColumn, $sortOrder)->get();
+        }
 
         return view('productcategory.index', ['productcategories' => $productcategory, 'sortColumn' => $sortColumn, 'sortOrder' => $sortOrder]);
     }

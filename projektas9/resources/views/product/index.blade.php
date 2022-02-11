@@ -22,8 +22,8 @@
                         <form method="GET" action="{{route('product.filter')}}">
                             @csrf
                             <select name="category_id">
-                            @foreach ($products as $product)
-                                <option value="{{$product->category_id}}">{{$product->categoryProducts->title}}</option>
+                            @foreach ($productcategories as $productcategory)
+                                <option value="{{$productcategory->id}}">{{$productcategory->title}}</option>
                             @endforeach
                         </select>
                         <button type="submit">Filter</button>

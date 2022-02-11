@@ -17,6 +17,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $productcategory = ProductCategory::orderBy('id', 'asc')->get();
         $sortColumn = 'category_id';
         $sortOrder = $request->sortOrder; // ASC/DESC
 
@@ -43,7 +44,7 @@ class ProductController extends Controller
 
         $select_array = $category;
 
-        return view('product.index', ['products' => $product, 'sortColumn' => $sortColumn, 'sortOrder' => $sortOrder, 'select_array' => $select_array]);
+        return view('product.index', ['products' => $product, 'sortColumn' => $sortColumn, 'sortOrder' => $sortOrder, 'select_array' => $select_array, 'productcategories' => $productcategory]);
     }
 
     /**
@@ -143,7 +144,8 @@ class ProductController extends Controller
     public function categoryFilter(Request $request)
     {
         $category_id = $request->category_id;
+        $productcategory = ProductCategory::orderBy('id', 'asc')->get();
         $product = Product::where('category_id', '=', $category_id)->get();
-        return view('product.filter', ['products' => $product]);
+        return view('product.filter', ['products' => $product, 'productcategories' => $productcategory]);
     }
 }
